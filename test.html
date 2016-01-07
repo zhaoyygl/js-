@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html> 
+    <head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no"/>
+        <title>Untitled Document</title> 
+    <style type="text/css"> 
+    *{margin: 0;padding: 0}
+    .left{
+        position: fixed;height: 100%;
+        overflow-y: auto;width: 55px;
+    }
+    ::-webkit-scrollbar{
+        width:0px;
+        height: 0px;
+    }
+
+    ::-webkit-scrollbar-thumb{
+        background-color:rgba(0,0,0,0);
+    }
+    .right{
+        margin-left: 60px;
+        overflow: auto;
+        position:absolute;
+    }
+    .right .box{
+        height: 300px;
+        overflow: hidden;
+    }
+        ul,li{list-style:none; margin:0; padding:0;height: 30px;width: 50px;height: 50px;border: 1px solid #8c8c8c;}
+        .content{margin-left: 52px;}
+    </style> 
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    </head> 
+    <body>
+        <div class="left" id="left">
+            <ul>
+                <li>1</li> 
+                 <li>2</li> 
+                  <li>3</li> 
+                   <li>4</li> 
+                    <li>5</li> 
+                     <li>6</li> 
+                     <li>7</li> 
+                     <li>8</li> 
+                     <li>9</li> 
+                     <li>10</li> 
+                     <li>11</li> 
+                     <li>12</li> 
+                     <li>13</li> 
+                     <li>14</li> 
+                     <li>15</li> 
+                     <li>16</li> 
+                     <li>17</li> 
+                    </ul>
+        </div>
+       <div id="right" class="right">
+           <div class="box">
+               <div>111</div>
+               <div>222</div>
+               <div>333</div>
+           </div>
+           <div  class="box">
+               <div>1111</div>
+               <div style="height: 500px;">2222</div>
+               <div>3333</div>
+           </div>
+           <div  class="box">
+               <div style="height: 1000px;">3</div>
+           </div>
+           <div  class="box">4</div>
+           <div  class="box">5</div>
+           <div  class="box">
+               <div style="height: 1000px;">3</div>
+           </div>
+           <div  class="box">7</div>
+           <div  class="box">8</div>
+           <div  class="box">9</div>
+           <div  class="box">10</div>
+           <div  class="box">11</div>
+           <div  class="box">12</div>
+           <div  class="box">13</div>
+           <div  class="box">14</div>
+           <div  class="box">15</div>
+           <div  class="box">16</div>
+           <div  class="box">17</div>
+       </div>
+<script>
+
+
+
+$(function(){
+    $("ul>li").bind({
+        click:function(){
+            var index = $(this).index();
+            $(this).css('color','red').siblings().css('color','#262626');
+//            $(".box:eq("+index+")").show().siblings().hide();
+
+
+            var _top = $(".box").eq(index).offset().top;
+//            document.getElementById('right').style.top = '-100px';
+//            $('.right').css('top',-_top);
+            $(".right").scrollTop(_top);
+
+//            $("body,html").animate({scrollTop : _top }, 500 );
+        }
+    });
+
+    $(window).scroll(function(){
+        var top = $(document).scrollTop();          //定义变量，获取滚动条的高度
+        var menu = $(".left");                      //定义变量，抓取#menu
+        var items = $(".right").find(".box");    //定义变量，查找.item
+        var a = document.getElementById('left');
+        var num = 0;
+        items.each(function(){
+            var m = $(this);                        //定义变量，获取当前类
+            var itemsTop = m.offset().top;        //定义变量，获取当前类的top偏移量
+            if(top > itemsTop-100){
+                num = $(this).index();
+                $('ul li').eq(num).css('color','red').siblings().css('color','#262626');
+                if(a.scrollHeight > document.documentElement.clientHeight){//左边超出页面
+                    if((num+1)*52>document.documentElement.clientHeight){
+                        if((num+1)*52-document.documentElement.clientHeight>0){
+                            a.scrollTop = (num+1)*52-document.documentElement.clientHeight;
+                            if(a.scrollTop<52){
+                                a.scrollTop = 0;
+                            }
+                        }
+                    }
+                }
+            }else{
+                return false;
+            }
+        });
+
+    });
+});
+
+</script>
+</body>
+</html> 
